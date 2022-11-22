@@ -41,12 +41,7 @@ https://python-docx.readthedocs.io/en/latest/
 """
 
 # import nltk # disabled this because it was only being used in sentence tokenization
-import PyPDF2
 import os
-from string import punctuation
-import textract
-from docx2pdf import convert  # for converting docx to pdf, to support page counting
-import re
 import pandas as pd
 import Document as Doc
 import _Utils
@@ -83,6 +78,7 @@ class SearchEngine:
         self.results_df         = pd.DataFrame(columns=self.df_column_names)
         self.first_run          = True
         self.file_dict          = {}
+        self.num_depth_limit    = search_parameters['dir_depth_limit']
 
 
     def _walk_directory_(self, refresh=False):
@@ -94,14 +90,13 @@ class SearchEngine:
         :return:
         """
         for root, dirs, files in os.walk(self.dir_path, topdown=False):
+
             for name in files:
                 if (name.find('.') > -1) & (name.split('.')[-1] in self.compatible_types):
                     fpath = os.path.join(root, name)
-                    if refresh and (not self.first_run) and (not (self.file_dict.get(fpath) is None)):
-                        # if a key already exists and needs comparing:
-                        # TODO: check self.file_dict for differences, change list iff required
-                        pass
-                    else:
+                    num_fpath_tokens = len(fpath.split('\\'))
+
+                    if num_fpath_tokens <= self.num_depth_limit+1:
                         # create a new record for file found at fpath
                         tmp_docObj = Doc.Document(fpath)
                         self.file_dict.update(

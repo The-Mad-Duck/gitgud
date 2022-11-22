@@ -27,7 +27,7 @@ import pandas as pd
 pd.set_option("display.max_rows", None)
 pd.set_option("display.max_columns", None)
 
-'''
+"""
 
 Code snippet from stackoverflow user eyllansec
 who made a way to click something in a pyqt5 
@@ -36,7 +36,6 @@ I am interested to see if this may be done for
 all document types for the fname section
 app = QApplication(sys.argv)
     w = QLabel()
-    path = r"C:\Users\Shaurya\Documents\To be saved\hello.pdf"
     # or
     # path = QDir.home().filePath(r"Documents\To be saved\hello.pdf")
     # or
@@ -47,7 +46,7 @@ app = QApplication(sys.argv)
     w.setOpenExternalLinks(True)
     w.show()
     sys.exit(app.exec_())
-'''
+"""
 
 class Ui_MainWindow(QtWidgets.QMainWindow):
     and_vals = ""
@@ -235,13 +234,8 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         OR_type = type_dictionary[str(self.or_type.currentText())]
         NOT_type = type_dictionary[str(self.not_type.currentText())]
         case_sens = False
-
-        # self.hide()
-        # if self._window2 is None:
-        #     self._window2 = Ui_Results(self)
-        # # I would expect your function for grabbing data to be somewhere around here
-        # self._window2.setText()
-        # self._window2.show()
+        # ZAYN EDIT the below is hard-coded until you implement the user input for directory depth limit
+        dir_depth_limit = 3
 
         search_params = {
             'ANDS': ANDS,
@@ -253,7 +247,8 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             'OR_srch_type': OR_type,
             'NOT_srch_type': NOT_type,
             'dir_path': dir_path,
-            'case_sens': case_sens
+            'case_sens': case_sens,
+            'dir_depth_limit': dir_depth_limit
         }
         SearchObj = searchEng.SearchEngine(search_params)
 
