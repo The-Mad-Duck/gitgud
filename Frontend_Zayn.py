@@ -79,6 +79,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         sizePolicy.setHeightForWidth(self.lineEdit.sizePolicy().hasHeightForWidth())
         self.lineEdit.setSizePolicy(sizePolicy)
         self.lineEdit.setObjectName("lineEdit")
+        self.lineEdit.setPlaceholderText("Must Include:")
         self.gridLayout.addWidget(self.lineEdit, 2, 1, 1, 1)
 
         self.lineEdit_2 = QtWidgets.QLineEdit(self.centralwidget)
@@ -86,6 +87,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         sizePolicy.setHeightForWidth(self.lineEdit_2.sizePolicy().hasHeightForWidth())
         self.lineEdit_2.setSizePolicy(sizePolicy)
         self.lineEdit_2.setObjectName("lineEdit_2")
+        self.lineEdit_2.setPlaceholderText("Context Keywords:")
         self.gridLayout.addWidget(self.lineEdit_2, 3, 1, 1, 1)
 
         self.lineEdit_3 = QtWidgets.QLineEdit(self.centralwidget)
@@ -93,19 +95,30 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         sizePolicy.setHeightForWidth(self.lineEdit_3.sizePolicy().hasHeightForWidth())
         self.lineEdit_3.setSizePolicy(sizePolicy)
         self.lineEdit_3.setObjectName("lineEdit_3")
+        self.lineEdit_3.setPlaceholderText("Excluded Keywords:")
         self.gridLayout.addWidget(self.lineEdit_3, 4, 1, 1, 1)
 
         self.spinBox = QtWidgets.QSpinBox(self.centralwidget)
         self.spinBox.setObjectName("spinBox")
-        self.gridLayout.addWidget(self.spinBox, 2, 2, 1, 1)
+        self.gridLayout.addWidget(self.spinBox, 2, 3, 1, 1)
 
         self.spinBox_2 = QtWidgets.QSpinBox(self.centralwidget)
         self.spinBox_2.setObjectName("spinBox_2")
-        self.gridLayout.addWidget(self.spinBox_2, 3, 2, 1, 1)
+        self.gridLayout.addWidget(self.spinBox_2, 3, 3, 1, 1)
 
         self.spinBox_3 = QtWidgets.QSpinBox(self.centralwidget)
         self.spinBox_3.setObjectName("spinBox_3")
-        self.gridLayout.addWidget(self.spinBox_3, 4, 2, 1, 1)
+        self.gridLayout.addWidget(self.spinBox_3, 4, 3, 1, 1)
+
+        self.label_depth = QtWidgets.QLabel(self.centralwidget)
+        self.label_depth.setEnabled(True)
+        self.label_depth.setText("Dir. Depth")
+        self.gridLayout.addWidget(self.label_depth, 5, 2, 1, 1)
+
+        self.depth_spinBox = QtWidgets.QSpinBox(self.centralwidget)
+        self.depth_spinBox.setObjectName("depth_spinBox")
+        self.depth_spinBox.setMinimum(1)
+        self.gridLayout.addWidget(self.depth_spinBox, 5, 3, 1, 1)
 
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setObjectName("pushButton")
@@ -146,12 +159,12 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         self.or_type = QtWidgets.QComboBox(self.centralwidget)
         self.or_type.setObjectName("or_type")
-        self.gridLayout.addWidget(self.or_type, 3, 3, 1, 1)
+        self.gridLayout.addWidget(self.or_type, 3, 2, 1, 1)
         self.or_type.addItems(["Word","Page","Document"])
 
         self.not_type = QtWidgets.QComboBox(self.centralwidget)
         self.not_type.setObjectName("not_type")
-        self.gridLayout.addWidget(self.not_type, 4, 3, 1, 1)
+        self.gridLayout.addWidget(self.not_type, 4, 2, 1, 1)
         self.not_type.addItems(["Word","Page","Document"])
 
         self.directory_path_label = QtWidgets.QLabel(self.centralwidget)
@@ -234,8 +247,8 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         OR_type = type_dictionary[str(self.or_type.currentText())]
         NOT_type = type_dictionary[str(self.not_type.currentText())]
         case_sens = False
-        # ZAYN EDIT the below is hard-coded until you implement the user input for directory depth limit
-        dir_depth_limit = 3
+        # Added the depth spinbox (12/06/2022)
+        dir_depth_limit = int(self.depth_spinBox.text())
 
         search_params = {
             'ANDS': ANDS,
